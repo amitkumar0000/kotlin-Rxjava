@@ -1,0 +1,36 @@
+Observable
+Observer
+Subscriber
+
+
+1. Subject
+============
+    What is Subject?
+
+    A Subject is a sort of bridge or proxy that is available in some implementations of ReactiveX
+    that acts both as an observer and as an Observable.
+    Because it is an observer, it can subscribe to one or more Observables,
+     and because it is an Observable, it can pass through the items it observes by re-emitting them, and it can also emit new items.
+
+
+Consumer Interface
+===================
+It is a simple java interface that accepts vatiable of type T. and as you said it is used for callbacks.
+
+Why does it work? How can we use a Consumer instead of an Observer?
+
+RxJava simply creates an Observer, passes the Consumer to it an it gets called in onNext
+
+CompositeDisposable
+======================
+The Single class and other observable classes offer different subscribe methods, which return a Disposable object
+
+When working with multiple subscriptions,
+which may become obsolete due to the same state change using a CompositeDisposable is
+pretty handy to dispose a collection of subscriptions.
+
+
+Android RxJava and Retrofit
+---------------------------
+
+
