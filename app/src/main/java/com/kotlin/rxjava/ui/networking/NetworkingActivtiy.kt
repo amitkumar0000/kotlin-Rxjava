@@ -1,22 +1,20 @@
 package com.kotlin.rxjava.ui.networking
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import com.kotlin.rxjava.R
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.Retrofit
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import com.kotlin.rxjava.model.Crypto
 import io.reactivex.Observable
 import android.widget.Toast
+import com.kotlin.rxjava.ui.networking.viewmodel.CryptoViewmodel
 import io.reactivex.functions.Consumer
 
 
@@ -25,17 +23,38 @@ class NetworkingActivtiy : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerViewAdapter: RecyclerViewAdapter
     lateinit var retrofit: Retrofit
+    lateinit var cryptVm:CryptoViewmodel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_networking_activtiy)
+
+        cryptVm = ViewModelProviders.of(this).get(CryptoViewmodel::class.java)
 
         recyclerView = findViewById(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerViewAdapter = RecyclerViewAdapter()
         recyclerView.adapter = recyclerViewAdapter
 
-        val interceptor = HttpLoggingInterceptor()
+
+//        createRetrofit()
+
+        cryptVm.cryptliveData.observe(this, Observer<List<Crypto.Market>> {
+            marketList -> recyclerViewAdapter.setData(marketList!!)
+        })
+
+        call()
+
+    }
+
+    fun call(){
+        cryptVm.getBtcEth("btc","eth")
+    }
+
+   /*
+
+   fun createRetrofit(){
+   val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
@@ -50,17 +69,14 @@ class NetworkingActivtiy : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-        callEndpoints();
+     }
 
-
-    }
-
-    private fun callEndpoints() {
+   private fun callEndpoints() {
 
         val cryptocurrencyService = retrofit.create(CryptocurrencyService::class.java)
 
         //Single call
-        var cryptoObservable = cryptocurrencyService.getCoinData("btc");
+        var cryptoObservable = cryptocurrencyService.getCoinData("btc")
         cryptoObservable.subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .map{result ->
@@ -140,7 +156,7 @@ class NetworkingActivtiy : AppCompatActivity() {
             this, "ERROR IN FETCHING API RESPONSE. Try again",
             Toast.LENGTH_LONG
         ).show()
-    }
+    }*/
 
 
 }
