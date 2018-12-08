@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.kotlin.rxjava.MyApplication
 import com.kotlin.rxjava.model.Crypto
-import com.kotlin.rxjava.module.ApiManager
+import com.kotlin.rxjava.model.ApiManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
@@ -23,6 +23,7 @@ class CryptoViewmodel : ViewModel() {
 
     fun getBtcEth(q1: String, q2: String) {
         val btcObservable = apiManager.get(q1)
+            .observeOn(AndroidSchedulers.mainThread())
             .map { result -> Observable.fromIterable(result.ticker!!.markets) }
             .flatMap { x -> x }
             .filter { y ->
@@ -31,6 +32,7 @@ class CryptoViewmodel : ViewModel() {
             }.toList().toObservable()
 
         val ethObservable = apiManager.get(q2)
+            .observeOn(AndroidSchedulers.mainThread())
             .map { result -> Observable.fromIterable(result.ticker!!.markets) }
             .flatMap { x -> x }
             .filter { y ->

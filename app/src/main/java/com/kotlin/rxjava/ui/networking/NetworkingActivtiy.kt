@@ -7,15 +7,9 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import com.kotlin.rxjava.R
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import retrofit2.Retrofit
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import com.kotlin.rxjava.model.Crypto
-import io.reactivex.Observable
-import android.widget.Toast
 import com.kotlin.rxjava.ui.networking.viewmodel.CryptoViewmodel
-import io.reactivex.functions.Consumer
 
 
 class NetworkingActivtiy : AppCompatActivity() {
@@ -37,8 +31,6 @@ class NetworkingActivtiy : AppCompatActivity() {
         recyclerView.adapter = recyclerViewAdapter
 
 
-//        createRetrofit()
-
         cryptVm.cryptliveData.observe(this, Observer<List<Crypto.Market>> {
             marketList -> recyclerViewAdapter.setData(marketList!!)
         })
@@ -51,112 +43,6 @@ class NetworkingActivtiy : AppCompatActivity() {
         cryptVm.getBtcEth("btc","eth")
     }
 
-   /*
-
-   fun createRetrofit(){
-   val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
-        retrofit = Retrofit.Builder()
-            .baseUrl("https://api.cryptonator.com/api/full/")
-            .client(client)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
-
-     }
-
-   private fun callEndpoints() {
-
-        val cryptocurrencyService = retrofit.create(CryptocurrencyService::class.java)
-
-        //Single call
-        var cryptoObservable = cryptocurrencyService.getCoinData("btc")
-        cryptoObservable.subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map{result ->
-                Log.d("TAG"," Received the result")
-                result.ticker
-            }
-        .subscribe(object: Consumer<Crypto.Ticker?> {
-            override fun accept(t: Crypto.Ticker?) {
-                handleResults(t)
-            }
-
-        }, object : Consumer<Throwable?>{
-            override fun accept(t: Throwable?) {
-                handleError(t)
-            }
-        });
-
-
-        val btcObservable = cryptocurrencyService.getCoinData("btc")
-
-            .map { result ->
-                Log.d("TAG"," result   ${result.ticker!!.markets?.get(0)?.market}")
-                Observable.fromIterable(result.ticker!!.markets)
-            }
-            .flatMap { x -> x }
-            .filter { y ->
-                y.coinName = "btc"
-                true
-            }.toList().toObservable()
-
-        val ethObservable = cryptocurrencyService.getCoinData("eth")
-            .map { result -> Observable.fromIterable(result.ticker!!.markets) }
-            .flatMap { x -> x }
-            .filter { y ->
-                y.coinName = "eth"
-                true
-            }.toList().toObservable()
-
-        Observable.merge(btcObservable, ethObservable)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object: Consumer<List<Crypto.Market>?> {
-                override fun accept(t: List<Crypto.Market>?) {
-                    handleResults(t)
-                }
-
-            }, object : Consumer<Throwable?>{
-                override fun accept(t: Throwable?) {
-                    handleError(t)
-                }
-            });
-
-
-    }
-
-    private fun handleResults( ticker: Crypto.Ticker?){
-        Log.d("TAG"," got the result")
-    }
-
-
-    private fun handleResults(marketList: List<Crypto.Market>?) {
-        if (marketList != null && marketList.size != 0) {
-            recyclerViewAdapter.setData(marketList)
-
-
-        } else {
-            Toast.makeText(
-                this, "NO RESULTS FOUND",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
-    private fun handleError(t: Throwable?) {
-
-        Toast.makeText(
-            this, "ERROR IN FETCHING API RESPONSE. Try again",
-            Toast.LENGTH_LONG
-        ).show()
-    }*/
 
 
 }

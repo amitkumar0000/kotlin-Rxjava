@@ -1,4 +1,4 @@
-package com.kotlin.rxjava.module
+package com.kotlin.rxjava.model
 
 import com.kotlin.rxjava.MyApplication
 import com.kotlin.rxjava.model.Crypto

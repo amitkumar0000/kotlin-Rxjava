@@ -1,6 +1,7 @@
 package com.kotlin.rxjava.module
 
 import android.arch.lifecycle.MutableLiveData
+import com.kotlin.rxjava.model.ApiManager
 import com.kotlin.rxjava.model.Crypto
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ class CryptVMModule {
     }
 
     @Provides
-    fun ProvidesApiManager():ApiManager{
+    fun ProvidesApiManager(): ApiManager {
         return ApiManager()
     }
 }

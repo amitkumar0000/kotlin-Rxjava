@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.kotlin.rxjava">
+
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -21,6 +22,11 @@
         <activity android:name=".ui.RxBus.RxBusActivity">
         </activity>
         <activity android:name=".ui.networking.NetworkingActivtiy">
+        </activity>
+        <activity
+                android:name=".ui.ProfileScreen"
+                android:label="@string/title_activity_profile_screen"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
