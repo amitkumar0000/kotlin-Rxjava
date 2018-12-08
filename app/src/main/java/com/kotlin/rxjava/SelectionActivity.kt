@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.kotlin.rxjava.ui.RxBus.RxBusActivity
+import com.kotlin.rxjava.ui.SerachActivity
 import com.kotlin.rxjava.ui.networking.NetworkingActivtiy
 
 class SelectionActivity : AppCompatActivity() {
@@ -25,6 +26,9 @@ class SelectionActivity : AppCompatActivity() {
             R.id.networkActivity -> {
                 startActivity(Intent(this,NetworkingActivtiy::class.java))
 
+            }
+            R.id.searchAt->{
+                startActivity(Intent(this, SerachActivity::class.java))
             }
 
         }

@@ -28,6 +28,8 @@
                 android:label="@string/title_activity_profile_screen"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".ui.SerachActivity">
+        </activity>
     </application>
 
 </manifest>
